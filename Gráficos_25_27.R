@@ -412,6 +412,86 @@ Fig16 <- UnalData::Administrativos %>%
 Fig16
 
 
+# Figura 17 ----
+
+
+Fig17 <- UnalData::SaberPro %>% filter(YEAR == 2022) %>% 
+         select(starts_with("PUNT")) %>% 
+         select(-PUNTAJE_GLOBAL) %>% 
+         rename(`Competencias Ciudadanas` = PUNT_COMP_CIUD,
+                `Comunicación Escrita` = PUNT_COMU_ESCR,
+                `Inglés` = PUNT_INGLES,
+                `Lectura Crítica` = PUNT_LECT_CRIT,
+                `Razonamiento Cuantitativo` = PUNT_RAZO_CUANT) %>% 
+         pivot_longer(cols = c(`Competencias Ciudadanas`:`Razonamiento Cuantitativo`),
+                      names_to = "Prueba",
+                      values_to = "Puntaje") %>% 
+         ggplot(aes(x = reorder(Prueba, Puntaje, FUN = median), y = Puntaje))+
+         geom_boxplot(outlier.colour = "gray70",
+                      outlier.shape = 21,
+                      width = 0.6)+
+        coord_flip()+
+  labs(title = "Distribución resultados de los estudiantes de la UNAL en las competencias de la\nPrueba Saber Pro",
+       subtitle = "Año 2022",
+       x = "Competencia evaluada\n",
+       y = "\nPuntaje en la prueba")
+ 
+Fig17
+
+
+# Figura 18 ----
+
+Fig18 <- UnalData::SaberPro %>% filter(YEAR == 2022) %>% 
+  select(starts_with("PUNT"), SEDE_NOMBRE_ADM) %>% 
+  select(-PUNTAJE_GLOBAL) %>% 
+  rename(`Competencias Ciudadanas` = PUNT_COMP_CIUD,
+         `Comunicación Escrita` = PUNT_COMU_ESCR,
+         `Inglés` = PUNT_INGLES,
+         `Lectura Crítica` = PUNT_LECT_CRIT,
+         `Razonamiento Cuantitativo` = PUNT_RAZO_CUANT,
+         `Sede de admisión` = SEDE_NOMBRE_ADM) %>% 
+  pivot_longer(cols = c(`Competencias Ciudadanas`:`Razonamiento Cuantitativo`),
+               names_to = "Prueba",
+               values_to = "Puntaje") %>% 
+  ggplot(aes(x = reorder(Prueba, Puntaje,  FUN = median), y = Puntaje, fill = `Sede de admisión`))+
+  geom_boxplot(outliers = FALSE, width = 0.6)+
+  scale_y_continuous(limits = c(0, 300))+
+  scale_fill_grey(start = 0.1, end = 1)+
+  coord_flip()+
+  labs(title = "Distribución resultados de los estudiantes de la UNAL en las competencias de la\nPrueba Saber Pro por sedes de admisión",
+       subtitle = "Año 2022",
+       x = "Competencia evaluada\n",
+       y = "\nPuntaje en la prueba")
+
+Fig18
+
+
+# Figura 19 ----
+
+Fig19 <- UnalData::SaberPro %>% filter(YEAR == 2022) %>% 
+  select(starts_with("PUNT"), TIPO_ADM) %>% 
+  select(-PUNTAJE_GLOBAL) %>% 
+  rename(`Competencias Ciudadanas` = PUNT_COMP_CIUD,
+         `Comunicación Escrita` = PUNT_COMU_ESCR,
+         `Inglés` = PUNT_INGLES,
+         `Lectura Crítica` = PUNT_LECT_CRIT,
+         `Razonamiento Cuantitativo` = PUNT_RAZO_CUANT,
+         `Modalidad de admisión` = TIPO_ADM) %>% 
+  pivot_longer(cols = c(`Competencias Ciudadanas`:`Razonamiento Cuantitativo`),
+               names_to = "Prueba",
+               values_to = "Puntaje") %>% 
+  ggplot(aes(x = reorder(Prueba, Puntaje,  FUN = median), y = Puntaje, fill = `Modalidad de admisión`))+
+  geom_boxplot(outliers = FALSE, width = 0.6)+
+  scale_y_continuous(limits = c(0, 300))+
+  scale_fill_grey(start = 0.3, end = 0.9)+
+  coord_flip()+
+  labs(title = "Distribución resultados de los estudiantes de la UNAL en las competencias de la\nPrueba Saber Pro según modalidades de admisión",
+       subtitle = "Año 2022",
+       x = "Competencia evaluada\n",
+       y = "\nPuntaje en la prueba")
+
+Fig19
+
 # Figura 20 ----
 
 Fig20 <- Grupos %>%
@@ -433,6 +513,7 @@ Fig20 <- Grupos %>%
        fill = "Categoría del grupo")+
     theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
+
 Fig20  
 
 # Figura 21 ----
