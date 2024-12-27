@@ -671,7 +671,7 @@ Fig28 <- UnalData::Matriculados %>%
                   box.padding = 1,
                   segment.linetype = 6,
                   size = 2.8)+
-  labs(title = "Evolución porcentaje de matriculados en pregrado programas PAES, PEAMA y PAET* por género",
+  labs(title = "Evolución porcentaje de matriculados en pregrado programas PAES, PEAMA y PAET*\npor género",
        x = "\nPeriodo",
        y = "Porcentaje",
        linetype = "Género",
@@ -724,7 +724,7 @@ Fig30 <- UnalData::Aspirantes %>%
                    box.padding = 1,
                    segment.linetype = 3,
                    size = 2.8)+
-  labs(title = "Evolución total de aspirantes a la UNAL en situación de discapacidad por periodos académicos",
+  labs(title = "Evolución total de aspirantes a la UNAL en situación de discapacidad\npor periodos académicos",
        x = "\nPeriodo",
        y = "Total aspirantes\n")+
   scale_y_continuous(limits = c(0, 700))+
@@ -749,7 +749,7 @@ Fig31 <- UnalData::Aspirantes %>%
                    box.padding = 1,
                    segment.linetype = 3,
                    size = 2.8)+
-  labs(title = "Evolución total de admitidos a la UNAL en situación de discapacidad por periodos académicos",
+  labs(title = "Evolución total de admitidos a la UNAL en situación de discapacidad\npor periodos académicos",
        x = "\nPeriodo",
        y = "Total admitidos\n")+
   scale_y_continuous(limits = c(0, 80))+
@@ -826,7 +826,7 @@ Fig34 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
            width = 0.5)+
   geom_text(aes(label = Porcentaje), hjust = -0.3, size = 3)+
   scale_y_continuous(limits = c(0,1500))+
-  labs(title = "Participación total de matriculados en la UNAL por modalidades del programa PAES",
+  labs(title = "Participación total de matriculados en la UNAL por modalidades\ndel programa PAES",
        subtitle = "Periodo 2024-1",
        x = "Modalidades programa PAES\n",
        y = "\nTotal de matriculados")+
@@ -849,7 +849,7 @@ Fig35 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
            width = 0.5)+
   geom_text(aes(label = Porcentaje), hjust = -0.3, size = 3)+
   scale_y_continuous(limits = c(0,2000))+
-  labs(title = "Participación total de matriculados en la UNAL por modalidades del programa PEAMA",
+  labs(title = "Participación total de matriculados en la UNAL por modalidades\ndel programa PEAMA",
        subtitle = "Periodo 2024-1",
        x = "Modalidades programa PEAMA\n",
        y = "\nTotal de matriculados")+
@@ -873,7 +873,7 @@ Fig35b <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
            width = 0.5)+
   geom_text(aes(label = Porcentaje), hjust = -0.3, size = 3)+
   scale_y_continuous(limits = c(0, 110))+
-  labs(title = "Participación total de matriculados en la UNAL por modalidades del programa PAET",
+  labs(title = "Participación total de matriculados en la UNAL por modalidades\ndel programa PAET",
        subtitle = "Periodo 2024-1",
        x = "Modalidades programa PAET\n",
        y = "\nTotal de matriculados")+
