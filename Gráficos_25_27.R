@@ -417,7 +417,7 @@ Fig16
 # Figura 17 ----
 
 
-Fig17 <- UnalData::SaberPro %>% filter(YEAR == 2022) %>% 
+Fig17 <- UnalData::SaberPro %>% 
          select(starts_with("PUNT")) %>% 
          select(-PUNTAJE_GLOBAL) %>% 
          rename(`Competencias Ciudadanas` = PUNT_COMP_CIUD,
@@ -428,13 +428,15 @@ Fig17 <- UnalData::SaberPro %>% filter(YEAR == 2022) %>%
          pivot_longer(cols = c(`Competencias Ciudadanas`:`Razonamiento Cuantitativo`),
                       names_to = "Prueba",
                       values_to = "Puntaje") %>% 
-         ggplot(aes(x = reorder(Prueba, Puntaje, FUN = median), y = Puntaje))+
+         na.omit() %>% 
+         ggplot(aes(x = reorder(Prueba, Puntaje, FUN = mean), y = Puntaje))+
          geom_boxplot(outlier.colour = "gray70",
                       outlier.shape = 21,
                       width = 0.6)+
+       scale_y_continuous(limits = c(0, 300), breaks = seq(0,300,50))+
         coord_flip()+
   labs(title = "Distribución resultados de los estudiantes de la UNAL en las competencias de la\nPrueba Saber Pro",
-       subtitle = "Año 2022",
+       subtitle = "Periodo 2016-2022",
        x = "Competencia evaluada\n",
        y = "\nPuntaje en la prueba")
  
@@ -443,7 +445,7 @@ Fig17
 
 # Figura 18 ----
 
-Fig18 <- UnalData::SaberPro %>% filter(YEAR == 2022) %>% 
+Fig18 <- UnalData::SaberPro %>% 
   select(starts_with("PUNT"), SEDE_NOMBRE_ADM) %>% 
   select(-PUNTAJE_GLOBAL) %>% 
   rename(`Competencias Ciudadanas` = PUNT_COMP_CIUD,
@@ -455,13 +457,14 @@ Fig18 <- UnalData::SaberPro %>% filter(YEAR == 2022) %>%
   pivot_longer(cols = c(`Competencias Ciudadanas`:`Razonamiento Cuantitativo`),
                names_to = "Prueba",
                values_to = "Puntaje") %>% 
-  ggplot(aes(x = reorder(Prueba, Puntaje,  FUN = median), y = Puntaje, fill = `Sede de admisión`))+
+  na.omit() %>% 
+  ggplot(aes(x = reorder(Prueba, Puntaje,  FUN = mean), y = Puntaje, fill = `Sede de admisión`))+
   geom_boxplot(outliers = FALSE, width = 0.6)+
-  scale_y_continuous(limits = c(0, 300))+
+  scale_y_continuous(limits = c(0, 300), breaks = seq(0,300,50))+
   scale_fill_grey(start = 0.1, end = 1)+
   coord_flip()+
   labs(title = "Distribución resultados de los estudiantes de la UNAL en las competencias de la\nPrueba Saber Pro por sedes de admisión",
-       subtitle = "Año 2022",
+       subtitle = "Periodo 2016-2022",
        x = "Competencia evaluada\n",
        y = "\nPuntaje en la prueba")
 
@@ -470,7 +473,7 @@ Fig18
 
 # Figura 19 ----
 
-Fig19 <- UnalData::SaberPro %>% filter(YEAR == 2022) %>% 
+Fig19 <- UnalData::SaberPro %>% 
   select(starts_with("PUNT"), TIPO_ADM) %>% 
   select(-PUNTAJE_GLOBAL) %>% 
   rename(`Competencias Ciudadanas` = PUNT_COMP_CIUD,
@@ -481,14 +484,15 @@ Fig19 <- UnalData::SaberPro %>% filter(YEAR == 2022) %>%
          `Modalidad de admisión` = TIPO_ADM) %>% 
   pivot_longer(cols = c(`Competencias Ciudadanas`:`Razonamiento Cuantitativo`),
                names_to = "Prueba",
-               values_to = "Puntaje") %>% 
+               values_to = "Puntaje") %>%
+  na.omit() %>%
   ggplot(aes(x = reorder(Prueba, Puntaje,  FUN = median), y = Puntaje, fill = `Modalidad de admisión`))+
   geom_boxplot(outliers = FALSE, width = 0.6)+
-  scale_y_continuous(limits = c(0, 300))+
+  scale_y_continuous(limits = c(0, 300), breaks = seq(0,300,50))+
   scale_fill_grey(start = 0.3, end = 0.9)+
   coord_flip()+
   labs(title = "Distribución resultados de los estudiantes de la UNAL en las competencias de la\nPrueba Saber Pro según modalidades de admisión",
-       subtitle = "Año 2022",
+       subtitle = "Periodo 2016-2022",
        x = "Competencia evaluada\n",
        y = "\nPuntaje en la prueba")
 
@@ -508,7 +512,7 @@ Fig20 <- Grupos %>%
                    size = 3)+
   scale_y_continuous(limits = c(0, 180))+
   scale_fill_manual(values = c("#252525", "#525252", "#737373", "#969696","#D9D9D9"))+
-   labs(title = "Grupos de investigación de la UNAL categorizados en MinCiencias por sedes",
+   labs(title = "Grupos de investigación de la UNAL categorizados en Minciencias por sedes",
        subtitle = "Año 2023",
        x = "\nSede",
        y = "Total grupos\n",
@@ -714,7 +718,7 @@ Fun <- UnalData::Administrativos %>% filter(YEAR == 2024,
   mutate(Participa = Total/sum(Total),
          Porcent = scales::percent(Participa, accuracy = 0.1),
          Pobla = "Funcionarios")
-Pob_Sexo <- bind_rows(Asp, Adm, Mat, Gra, Doc, Fun) %>% 
+Pob_Sexo <- bind_rows(Adm, Mat, Gra) %>% 
             mutate(Pobla = fct_relevel(Pobla, "Aspirantes", "Admitidos", "Matriculados", "Graduados", "Docentes", "Funcionarios"))
 
 Fig27 <- Pob_Sexo %>% ggplot(aes(x = Pobla, y = Participa, fill = SEXO))+
@@ -726,7 +730,7 @@ Fig27 <- Pob_Sexo %>% ggplot(aes(x = Pobla, y = Participa, fill = SEXO))+
               geom_hline(yintercept = 0.5, linetype = "dashed", size = 0.4)+
   scale_y_continuous(labels = scales::percent,limits = c(0, 1))+ 
   scale_fill_manual(values = c("gray35", "gray60"))+
-  labs(title = "Participación de hombres y mujeres en las poblaciones de aspirantes, admitidos,\nmatriculados, graduados, docentes y funcionarios",
+  labs(title = "Participación de hombres y mujeres en las poblaciones de admitidos,matriculados y\ngraduados",
        subtitle = "Periodo 2024-1",
        x = "\nPoblación",
        y = "Porcentaje\n",
@@ -797,7 +801,7 @@ Fig30 <- UnalData::Aspirantes %>%
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
   mutate(Grupo = "General",
-         Totaf = ifelse(Periodo %in% c("2009-1", "2021-1", "2023-1", "2024-2"),  
+         Totaf = ifelse(Periodo %in% c("2009-1", "2019-1", "2021-1", "2023-1", "2024-2"),  
                         format(Total, big.mark = ".", decimal.mark = ","), 
                         NA)) %>% 
   ggplot(aes(x = Periodo, y = Total, group = Grupo ))+
@@ -822,7 +826,7 @@ Fig31 <- UnalData::Aspirantes %>%
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
   mutate(Grupo = "General",
-         Totaf = ifelse(Periodo %in% c("2009-1", "2016-2", "2023-1", "2024-2"),  
+         Totaf = ifelse(Periodo %in% c("2009-1", "2016-2", "2019-1", "2023-1", "2024-2"),  
                         format(Total, big.mark = ".", decimal.mark = ","), 
                         NA)) %>% 
   ggplot(aes(x = Periodo, y = Total, group = Grupo ))+
@@ -941,9 +945,9 @@ Fig35 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
 
 Fig35
 
-# Figura 35b ----
+# Figura 36 ----
 
-Fig35b <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
+Fig36 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
                                            TIPO_ADM %in% c("PAET")) %>%
   summarise(Total = n(), .by = c(PAET)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
@@ -962,11 +966,11 @@ Fig35b <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
        y = "\nTotal de matriculados")+
   coord_flip()
 
-Fig35b
+Fig36
 
-# Figura 36 ----
+# Figura 37 ----
 
-Fig36 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
+Fig37 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
                      Periodo = str_sub(APERTURA, 1, 6)) %>% 
   summarise(Total = sum(Total), 
             Deserción = sum(Deserción), 
@@ -991,11 +995,11 @@ Fig36 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
                      limits = c(0,1))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig36
+Fig37
 
-# Figura 37 ----
+# Figura 378 ----
 
-Fig37 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
+Fig38 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
                               Periodo = str_sub(APERTURA, 1, 6)) %>% 
   summarise(Total = sum(Total), 
             Deserción = sum(Deserción), 
@@ -1022,6 +1026,6 @@ Fig37 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
   
-Fig37
+Fig38
 
 
