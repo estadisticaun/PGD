@@ -7,10 +7,12 @@
 # Librerías  ----
 
 library(tidyverse)
+library(UnalData)
 library(ggrepel)
 library(scales)
 library(googledrive)
 library(readxl)
+
 
 # Importar bases ----
 
@@ -242,7 +244,7 @@ Fig9 <- UnalData::Matriculados %>%
   geom_point(aes(shape = Estrato),
              size = 1.3,
              alpha = 0.5)+
-  labs(title = "Evolución Total estudiantes matriculados en la UNAL por estrato",
+  labs(title = "Evolución Total estudiantes matriculados en pregrado en la UNAL por estrato",
        x = "\nPeriodo",
        y = "Total matriculados",
        linetype = "Estrato",
