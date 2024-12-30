@@ -727,7 +727,7 @@ Fig27 <- Pob_Sexo %>% ggplot(aes(x = Pobla, y = Participa, fill = SEXO))+
                        position = position_dodge(width = 0.9),
                        vjust = -0.7,
                        size = 3)+
-              geom_hline(yintercept = 0.5, linetype = "dashed", size = 0.4)+
+              geom_hline(yintercept = 0.5, linetype = "dashed", linewidth = 0.4)+
   scale_y_continuous(labels = scales::percent,limits = c(0, 1))+ 
   scale_fill_manual(values = c("gray35", "gray60"))+
   labs(title = "Participación de hombres y mujeres en las poblaciones de admitidos,matriculados y\ngraduados",
@@ -997,7 +997,7 @@ Fig37 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
 
 Fig37
 
-# Figura 378 ----
+# Figura 38 ----
 
 Fig38 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
                               Periodo = str_sub(APERTURA, 1, 6)) %>% 
