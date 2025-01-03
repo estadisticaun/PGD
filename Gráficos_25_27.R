@@ -34,6 +34,8 @@ Extensión <- read_excel("Fuentes/Investigación.xlsx", sheet = "Extensión")
 Desersión <- read_excel("Fuentes/Desersión.xlsx", sheet = "Pregrado")
 
 
+# Info Bienestar 
+Económica <- read_excel("Fuentes/Bienestar.xlsx", sheet = "GYFSE") # GYFS
 
 # Figura 1 ----
 
@@ -644,6 +646,110 @@ Fig25 <- Rankings %>% filter(RANKING == "USapiens") %>%
   theme(axis.text.x = element_text(angle = 90))
 
 Fig25
+
+
+# Figura 25-a ----
+# Apoyo alimentario
+Fig25a <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+                                                 str_sub(Periodof, 7, 7))) %>% 
+         filter(Programa == "Apoyo alimentario estudiantil") %>% 
+         mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-1", "2022-1", "2023-2"),  
+                 format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>% 
+  ggplot(aes(x = Periodo, y = Usuarios, group = Programa))+
+  geom_line(aes(linetype = Programa))+
+  geom_label_repel(aes(label = Usuariosf),
+                  box.padding = 1,
+                  segment.linetype = 6,
+                  size = 2.8)+
+  geom_point(size = 1.3,
+             alpha = 0.5)+
+  labs(title = "Evolución total estudiantes beneficiarios del programa de Apoyo Alimentario Estudiantil",
+       subtitle = "Periodo 2017-2023",
+       x = "\nPeriodo",
+       y = "Total beneficiarios\n") +
+  scale_y_continuous(limits = c(0, 7000))+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position="none")
+
+Fig25a
+
+# Figura 25-b ----
+# Apoyo económico
+Fig25b <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+                                                 str_sub(Periodof, 7, 7))) %>% 
+  filter(Programa == "Apoyo económico estudiantil") %>% 
+  mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-1", "2022-1", "2023-2"),  
+                            format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>% 
+  ggplot(aes(x = Periodo, y = Usuarios, group = Programa))+
+  geom_line(aes(linetype = Programa))+
+  geom_label_repel(aes(label = Usuariosf),
+                   box.padding = 1,
+                   segment.linetype = 6,
+                   size = 2.8)+
+  geom_point(size = 1.3,
+             alpha = 0.5)+
+  labs(title = "Evolución total estudiantes beneficiarios del programa de Apoyo Económico Estudiantil",
+       subtitle = "Periodo 2017-2023",
+       x = "\nPeriodo",
+       y = "Total beneficiarios\n") +
+  scale_y_continuous(limits = c(0, 3000))+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position="none")
+
+Fig25b
+
+
+Fig25a
+
+# Figura 25-c ----
+# Alojamiento
+Fig25c <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+                                                 str_sub(Periodof, 7, 7))) %>% 
+  filter(Programa == "Apoyo para el alojamiento estudiantil") %>% 
+  mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-2", "2022-1", "2023-2"),  
+                            format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>% 
+  ggplot(aes(x = Periodo, y = Usuarios, group = Programa))+
+  geom_line(aes(linetype = Programa))+
+  geom_label_repel(aes(label = Usuariosf),
+                   box.padding = 1,
+                   segment.linetype = 6,
+                   size = 2.8)+
+  geom_point(size = 1.3,
+             alpha = 0.5)+
+  labs(title = "Evolución total estudiantes beneficiarios del programa de Apoyo Para el Alojamiento Estudiantil",
+       subtitle = "Periodo 2017-2023",
+       x = "\nPeriodo",
+       y = "Total beneficiarios\n") +
+  scale_y_continuous(limits = c(0, 1500))+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position="none")
+
+Fig25c
+
+# Figura 25-d ----
+# Alojamiento
+Fig25d <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+                                                 str_sub(Periodof, 7, 7))) %>% 
+  filter(Programa == "Apoyo para el transporte estudiantil") %>% 
+  mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-2", "2022-1", "2023-2"),  
+                            format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>% 
+  ggplot(aes(x = Periodo, y = Usuarios, group = Programa))+
+  geom_line(aes(linetype = Programa))+
+  geom_label_repel(aes(label = Usuariosf),
+                   box.padding = 1,
+                   segment.linetype = 6,
+                   size = 2.8)+
+  geom_point(size = 1.3,
+             alpha = 0.5)+
+  labs(title = "Evolución total estudiantes beneficiarios del programa de Apoyo para el Transporte Estudiantil",
+       subtitle = "Periodo 2017-2023",
+       x = "\nPeriodo",
+       y = "Total beneficiarios\n") +
+  scale_y_continuous(limits = c(0, 6500))+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position="none")
+
+Fig25d
 
 
 # Figura 26 ----
