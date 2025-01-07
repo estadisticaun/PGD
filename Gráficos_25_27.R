@@ -35,6 +35,7 @@ Desersión <- read_excel("Fuentes/Desersión.xlsx", sheet = "Pregrado")
 
 
 # Info Bienestar 
+Bienestar <- read_excel("Fuentes/BienestarG.xlsx", sheet = "Hoja2") # General
 Económica <- read_excel("Fuentes/Bienestar.xlsx", sheet = "GYFSE") # GYFS
 
 # Figura 1 ----
@@ -647,10 +648,115 @@ Fig25 <- Rankings %>% filter(RANKING == "USapiens") %>%
 
 Fig25
 
+# Figura 26 ----
+# Salud
 
-# Figura 25-a ----
+Fig26 <- Bienestar %>% 
+  filter(Programa == "Salud") %>% 
+  mutate(Usuariosf = ifelse(Year %in% c(2017, 2021, 2023),
+                            format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>%
+  ggplot(aes(x = Year, y = Usuarios, group = Programa))+
+  geom_line(aes(linetype = Programa))+
+  geom_label_repel(aes(label = Usuariosf),
+                   box.padding = 1,
+                   segment.linetype = 6,
+                   size = 2.8)+
+  geom_point(size = 1.3,
+             alpha = 0.5)+
+  labs(title = "Evolución total beneficiarios Área de Salud",
+       subtitle = "Periodo 2017-2023",
+       x = "\nAño",
+       y = "Total beneficiarios\n") +
+  scale_y_continuous(limits = c(0, 40000))+
+  scale_x_continuous(breaks = c(2017:2023))+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position="none")
+
+Fig26
+
+# Figura 27 ----
+# Deportes
+
+Fig27 <- Bienestar %>% 
+  filter(Programa == "Actividad Física y Deporte") %>% 
+  mutate(Usuariosf = ifelse(Year %in% c(2017, 2020, 2021, 2023),
+                            format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>%
+  ggplot(aes(x = Year, y = Usuarios, group = Programa))+
+  geom_line(aes(linetype = Programa))+
+  geom_label_repel(aes(label = Usuariosf),
+                   box.padding = 1,
+                   segment.linetype = 6,
+                   size = 2.8)+
+  geom_point(size = 1.3,
+             alpha = 0.5)+
+  labs(title = "Evolución total beneficiarios Área Actividad Física y Deporte",
+       subtitle = "Periodo 2017-2023",
+       x = "\nAño",
+       y = "Total beneficiarios\n") +
+  scale_y_continuous(limits = c(0, 30000))+
+  scale_x_continuous(breaks = c(2017:2023))+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position="none")
+
+Fig27
+
+# Figura 28 ----
+# Cultura
+
+Fig28 <- Bienestar %>% 
+  filter(Programa == "Cultura") %>% 
+  mutate(Usuariosf = ifelse(Year %in% c(2017, 2020, 2021, 2023),
+                            format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>%
+  ggplot(aes(x = Year, y = Usuarios, group = Programa))+
+  geom_line(aes(linetype = Programa))+
+  geom_label_repel(aes(label = Usuariosf),
+                   box.padding = 1,
+                   segment.linetype = 6,
+                   size = 2.8)+
+  geom_point(size = 1.3,
+             alpha = 0.5)+
+  labs(title = "Evolución total beneficiarios Área de Cultura",
+       subtitle = "Periodo 2017-2023",
+       x = "\nAño",
+       y = "Total beneficiarios\n") +
+  scale_y_continuous(limits = c(0, 25000))+
+  scale_x_continuous(breaks = c(2017:2023))+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position="none")
+
+Fig28
+
+# Figura 29 ----
+# Acompañamiento integral
+
+Fig29 <- Bienestar %>% 
+  filter(Programa == "Acompañamiento Integral") %>% 
+  mutate(Usuariosf = ifelse(Year %in% c(2017, 2020, 2021, 2023),
+                            format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>%
+  ggplot(aes(x = Year, y = Usuarios, group = Programa))+
+  geom_line(aes(linetype = Programa))+
+  geom_label_repel(aes(label = Usuariosf),
+                   box.padding = 1,
+                   segment.linetype = 6,
+                   size = 2.8)+
+  geom_point(size = 1.3,
+             alpha = 0.5)+
+  labs(title = "Evolución total beneficiarios Área Acompañamiento Integral",
+       subtitle = "Periodo 2017-2023",
+       x = "\nAño",
+       y = "Total beneficiarios\n") +
+  scale_y_continuous(limits = c(0, 40000))+
+  scale_x_continuous(breaks = c(2017:2023))+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position="none")
+
+Fig29
+
+
+# Figura 30 ----
 # Apoyo alimentario
-Fig25a <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+
+Fig30 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
                                                  str_sub(Periodof, 7, 7))) %>% 
          filter(Programa == "Apoyo alimentario estudiantil") %>% 
          mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-1", "2022-1", "2023-2"),  
@@ -671,11 +777,12 @@ Fig25a <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5),
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig25a
+Fig30
 
-# Figura 25-b ----
+# Figura 31 ----
 # Apoyo económico
-Fig25b <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+
+Fig31 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
                                                  str_sub(Periodof, 7, 7))) %>% 
   filter(Programa == "Apoyo económico estudiantil") %>% 
   mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-1", "2022-1", "2023-2"),  
@@ -696,14 +803,13 @@ Fig25b <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5),
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig25b
+Fig31
 
 
-Fig25a
-
-# Figura 25-c ----
+# Figura 32 ----
 # Alojamiento
-Fig25c <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+
+Fig32 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
                                                  str_sub(Periodof, 7, 7))) %>% 
   filter(Programa == "Apoyo para el alojamiento estudiantil") %>% 
   mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-2", "2022-1", "2023-2"),  
@@ -724,11 +830,12 @@ Fig25c <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5),
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig25c
+Fig32
 
-# Figura 25-d ----
+# Figura 33 ----
 # Alojamiento
-Fig25d <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+
+Fig33 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
                                                  str_sub(Periodof, 7, 7))) %>% 
   filter(Programa == "Apoyo para el transporte estudiantil") %>% 
   mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-2", "2022-1", "2023-2"),  
@@ -749,12 +856,12 @@ Fig25d <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5),
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig25d
+Fig33
 
 
-# Figura 26 ----
+# Figura 34 ----
 
-Fig26 <- UnalData::Aspirantes %>% 
+Fig34 <- UnalData::Aspirantes %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, SEXO)) %>% 
   group_by(Periodo) %>% 
@@ -776,10 +883,10 @@ Fig26 <- UnalData::Aspirantes %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig26
+Fig34
 
 
-# Figura 27 ----
+# Figura 35 ----
 
 Asp <- UnalData::Aspirantes %>% filter(YEAR == 2024, 
                                        SEMESTRE == 1,
@@ -827,7 +934,7 @@ Fun <- UnalData::Administrativos %>% filter(YEAR == 2024,
 Pob_Sexo <- bind_rows(Adm, Mat, Gra) %>% 
             mutate(Pobla = fct_relevel(Pobla, "Aspirantes", "Admitidos", "Matriculados", "Graduados", "Docentes", "Funcionarios"))
 
-Fig27 <- Pob_Sexo %>% ggplot(aes(x = Pobla, y = Participa, fill = SEXO))+
+Fig35 <- Pob_Sexo %>% ggplot(aes(x = Pobla, y = Participa, fill = SEXO))+
              geom_bar(stat = "identity", position = "dodge", width = 0.8)+
              geom_text(aes(label = Porcent),
                        position = position_dodge(width = 0.9),
@@ -844,11 +951,11 @@ Fig27 <- Pob_Sexo %>% ggplot(aes(x = Pobla, y = Participa, fill = SEXO))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
   
-Fig27
+Fig35
 
-# Figura 28 ----
+# Figura 36 ----
 
-Fig28 <- UnalData::Matriculados %>% 
+Fig36 <- UnalData::Matriculados %>% 
   filter(TIPO_ADM %in% c("PAES", "PEAMA", "PAET")) %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, SEXO)) %>% 
@@ -872,11 +979,11 @@ Fig28 <- UnalData::Matriculados %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig28
+Fig36
 
-# Figura 29 ----
+# Figura 37 ----
 
-Fig29 <- UnalData::Docentes %>% 
+Fig37 <- UnalData::Docentes %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, SEXO)) %>% 
   group_by(Periodo) %>% 
@@ -898,11 +1005,11 @@ Fig29 <- UnalData::Docentes %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig29
+Fig37
 
-# Figura 30 ----
+# Figura 38 ----
 
-Fig30 <- UnalData::Aspirantes %>% 
+Fig38 <- UnalData::Aspirantes %>% 
   filter(DISCAPACIDAD == "Sí") %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
@@ -923,11 +1030,11 @@ Fig30 <- UnalData::Aspirantes %>%
   scale_y_continuous(limits = c(0, 700))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig30
+Fig38
 
-# Figura 31 ----
+# Figura 39 ----
 
-Fig31 <- UnalData::Aspirantes %>% 
+Fig39 <- UnalData::Aspirantes %>% 
   filter(DISCAPACIDAD == "Sí", ADMITIDO == "Sí") %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
@@ -948,11 +1055,11 @@ Fig31 <- UnalData::Aspirantes %>%
   scale_y_continuous(limits = c(0, 80))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig31
+Fig39
 
-# Figura 32 ----
+# Figura 40 ----
 
-Fig32 <- UnalData::Aspirantes %>% 
+Fig40 <- UnalData::Aspirantes %>% 
   filter(TIPO_INS %in% c("PAES", "PEAMA", "PAET")) %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, TIPO_INS)) %>%
@@ -975,11 +1082,11 @@ Fig32 <- UnalData::Aspirantes %>%
        linetype = "Programa")+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig32
+Fig40
 
-# Figura 33 ----
+# Figura 41 ----
 
-Fig32 <- UnalData::Matriculados %>% 
+Fig41 <- UnalData::Matriculados %>% 
   filter(TIPO_ADM %in% c("PAES", "PEAMA", "PAET")) %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, TIPO_ADM)) %>%
@@ -1002,11 +1109,11 @@ Fig32 <- UnalData::Matriculados %>%
        linetype = "Programa")+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig32
+Fig41
 
-# Figura 34 ----
+# Figura 42 ----
 
-Fig34 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
+Fig42 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
                                            TIPO_ADM %in% c("PAES")) %>%
   summarise(Total = n(), .by = c(PAES)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
@@ -1025,11 +1132,11 @@ Fig34 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
        y = "\nTotal de matriculados")+
   coord_flip()
 
-Fig34
+Fig42
 
-# Figura 35 ----
+# Figura 43 ----
 
-Fig35 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
+Fig43 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
                                            TIPO_ADM %in% c("PEAMA")) %>%
   summarise(Total = n(), .by = c(PEAMA)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
@@ -1049,11 +1156,11 @@ Fig35 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
   coord_flip()
 
 
-Fig35
+Fig43
 
-# Figura 36 ----
+# Figura 44 ----
 
-Fig36 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
+Fig44 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
                                            TIPO_ADM %in% c("PAET")) %>%
   summarise(Total = n(), .by = c(PAET)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
@@ -1072,11 +1179,11 @@ Fig36 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
        y = "\nTotal de matriculados")+
   coord_flip()
 
-Fig36
+Fig44
 
-# Figura 37 ----
+# Figura 45 ----
 
-Fig37 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
+Fig45 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
                      Periodo = str_sub(APERTURA, 1, 6)) %>% 
   summarise(Total = sum(Total), 
             Deserción = sum(Deserción), 
@@ -1101,11 +1208,11 @@ Fig37 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
                      limits = c(0,1))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig37
+Fig45
 
-# Figura 38 ----
+# Figura 46 ----
 
-Fig38 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
+Fig46 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
                               Periodo = str_sub(APERTURA, 1, 6)) %>% 
   summarise(Total = sum(Total), 
             Deserción = sum(Deserción), 
@@ -1132,6 +1239,6 @@ Fig38 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
   
-Fig38
+Fig46
 
 
