@@ -60,6 +60,8 @@ Fig1 <- Programas %>%
 
 Fig1
 
+ggsave("Exportar/SVG/Figura1.svg")
+
 # Figura 2 ----
 
 Fig2 <- Programas %>% 
@@ -83,6 +85,8 @@ Fig2 <- Programas %>%
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
 Fig2
+
+ggsave("Exportar/SVG/Figura2.svg")
 
 # Figura 3 ----
 
