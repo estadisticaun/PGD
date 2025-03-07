@@ -38,9 +38,9 @@ Desersión <- read_excel("Fuentes/Desersión.xlsx", sheet = "Pregrado")
 Bienestar <- read_excel("Fuentes/BienestarG.xlsx", sheet = "Hoja2") # General
 Económica <- read_excel("Fuentes/Bienestar.xlsx", sheet = "GYFSE") # GYFS
 
-# Figura 1 ----
+# Gráfico 5 ----
 
-Fig1 <- Programas %>% 
+Gra5 <- Programas %>% 
         mutate(Grupo = "General",
          Totaf = ifelse(Year %in% c(1994, 2000, 2010, 2020, 2024), Total, NA),
          Year = as.character(Year)) %>% 
@@ -58,13 +58,13 @@ Fig1 <- Programas %>%
   scale_y_continuous(limits = c(0,500))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig1
+Gra5
 
-ggsave("Exportar/SVG/Figura1.svg")
+ggsave("Exportar/SVG/Grafico5.svg")
 
-# Figura 2 ----
+# Gráfico 6 ----
 
-Fig2 <- Programas %>% 
+Gra6 <- Programas %>% 
         pivot_longer(cols = c(Pregrado, Posgrado),
                      names_to = "Nivel",
                      values_to = "Global") %>% 
@@ -84,13 +84,14 @@ Fig2 <- Programas %>%
   scale_y_continuous(limits = c(0, 400))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig2
 
-ggsave("Exportar/SVG/Figura2.svg")
+Gra6
 
-# Figura 3 ----
+ggsave("Exportar/SVG/Grafico6.svg")
 
-Fig3 <- UnalData::Aspirantes %>% 
+# Gráfico 7 ----
+
+Gra7 <- UnalData::Aspirantes %>% 
         mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
         summarise(Total = n(), .by = c(Periodo)) %>% 
         mutate(Grupo = "General",
@@ -110,11 +111,12 @@ Fig3 <- UnalData::Aspirantes %>%
   scale_y_continuous(limits = c(0,100000))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig3
+Gra7
+ggsave("Exportar/SVG/Grafico7.svg")
 
-# Figura 4 ----
+# Gráfico 8 ----
 
-Fig4 <- UnalData::Aspirantes %>% filter(YEAR == 2024, SEMESTRE == 2) %>%
+Gra8 <- UnalData::Aspirantes %>% filter(YEAR == 2024, SEMESTRE == 2) %>%
   summarise(Total = n(), .by = c(INS_SEDE_NOMBRE)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
          INS_SEDE_NOMBRE = fct_rev(fct_reorder(INS_SEDE_NOMBRE,Total,sum))) %>% 
@@ -130,11 +132,12 @@ Fig4 <- UnalData::Aspirantes %>% filter(YEAR == 2024, SEMESTRE == 2) %>%
        subtitle = "Periodo 2024-2",
        x = "\nSede de la Universidad",
        y = "Total de aspirantes\n")
-Fig4
+Gra8
+ggsave("Exportar/SVG/Grafico8.svg")
 
-# Figura 5 ----
+# Gráfico 9 ----
 
-Fig5 <- UnalData::Aspirantes %>% 
+Gra9 <- UnalData::Aspirantes %>% 
   filter(ADMITIDO == "Sí") %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
@@ -155,11 +158,12 @@ Fig5 <- UnalData::Aspirantes %>%
   scale_y_continuous(limits = c(0,12000))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig5
+Gra9
+ggsave("Exportar/SVG/Grafico9.svg")
 
-# Figura 6 ----
+# Gráfico 10 ----
 
-Fig6 <- UnalData::Aspirantes %>% 
+Gra10 <- UnalData::Aspirantes %>% 
   filter(ADMITIDO == "Sí") %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, MOD_INS)) %>% 
@@ -182,11 +186,13 @@ Fig6 <- UnalData::Aspirantes %>%
   scale_y_continuous(labels = scales::percent)+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig6
 
-# Figura 7 ----
+Gra10
+ggsave("Exportar/SVG/Grafico10.svg")
 
-Fig7 <- UnalData::Matriculados %>% 
+# Gráfico 11 ----
+
+Gra11 <- UnalData::Matriculados %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
   mutate(Grupo = "General",
@@ -208,11 +214,12 @@ Fig7 <- UnalData::Matriculados %>%
   scale_y_continuous(limits = c(0,70000))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig7
+Gra11
+ggsave("Exportar/SVG/Grafico11.svg")
 
-# Figura 8 ----
+# Gráfico 12 ----
 
-Fig8 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1) %>%
+Gra12 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1) %>%
   summarise(Total = n(), .by = c(SEDE_NOMBRE_MAT)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
          SEDE_NOMBRE_MAT = fct_rev(fct_reorder(SEDE_NOMBRE_MAT, Total, sum))) %>% 
@@ -228,11 +235,13 @@ Fig8 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1) %>%
        subtitle = "Periodo 2024-1",
        x = "\nSede de la Universidad",
        y = "Total matriculados\n")
-Fig8
 
-# Figura 9 ----
+Gra12
+ggsave("Exportar/SVG/Grafico12.svg")
 
-Fig9 <- UnalData::Matriculados %>% 
+# Gráfico 13 ----
+
+Gra13 <- UnalData::Matriculados %>% 
   filter(TIPO_NIVEL == "Pregrado") %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
     summarise(Total = n(), .by = c(Periodo, ESTRATO_ORIG)) %>%
@@ -258,11 +267,12 @@ Fig9 <- UnalData::Matriculados %>%
        caption = "(**): Por anormalidad académica, no incluye los matriculados\nregulares de la Sede Medellín")+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig9
+Gra13
+ggsave("Exportar/SVG/Grafico13.svg")
 
-# Figura 10 ----
+# Gráfico 14 ----
 
-Fig10 <- UnalData::Graduados %>% 
+Gra14 <- UnalData::Graduados %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
   mutate(Grupo = "General",
@@ -282,11 +292,12 @@ Fig10 <- UnalData::Graduados %>%
   scale_y_continuous(limits = c(0,8000))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig10
+Gra14
+ggsave("Exportar/SVG/Grafico14.svg")
 
-# Figura 11 ----
+# Gráfico 15 ----
 
-Fig11 <- UnalData::Graduados %>% filter(YEAR >= 2023) %>%
+Gra15 <- UnalData::Graduados %>% filter(YEAR == 2023 | (YEAR == 2024 & SEMESTRE == 1)) %>%
   summarise(Total = n(), .by = c(SEDE_NOMBRE_ADM)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
          SEDE_NOMBRE_ADM = fct_rev(fct_reorder(SEDE_NOMBRE_ADM,Total,sum))) %>% 
@@ -302,12 +313,14 @@ Fig11 <- UnalData::Graduados %>% filter(YEAR >= 2023) %>%
        subtitle = "Año 2023 y periodo 2024-1",
        x = "\nSede de la Universidad",
        y = "Total de graduados\n")
-Fig11
+
+Gra15
+ggsave("Exportar/SVG/Grafico15.svg")
 
 
-# Figura 12 ----
+# Gráfico 16 ----
 
-Fig12 <- UnalData::Graduados %>% filter(YEAR >= 2023, TIPO_NIVEL == "Pregrado") %>%
+Gra16 <- UnalData::Graduados %>% filter(YEAR == 2023 | (YEAR == 2024 & SEMESTRE == 1), TIPO_NIVEL == "Pregrado") %>%
   summarise(Total = n(), .by = c(ESTRATO_ORIG)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1)) %>% 
   rename(Estrato = ESTRATO_ORIG) %>% 
@@ -322,12 +335,14 @@ Fig12 <- UnalData::Graduados %>% filter(YEAR >= 2023, TIPO_NIVEL == "Pregrado") 
        subtitle = "Año 2023 y periodo 2024-1",
        x = "\nEstrato",
        y = "Total de graduados\n")
-Fig12
+
+Gra16
+ggsave("Exportar/SVG/Grafico16.svg")
 
 
-# Figura 13 ----
+# Gráfico 17 ----
 
-Fig13 <- UnalData::Docentes %>% 
+Gra17 <- UnalData::Docentes %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
   mutate(Grupo = "General",
@@ -347,11 +362,12 @@ Fig13 <- UnalData::Docentes %>%
   scale_y_continuous(limits = c(0, 4000))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig13
+Gra17
+ggsave("Exportar/SVG/Grafico17.svg")
 
-# Figura 14 ----
+# Gráfico 18 ----
 
-Fig14 <- UnalData::Docentes %>% filter(YEAR == 2024, SEMESTRE == 2) %>%
+Gra18 <- UnalData::Docentes %>% filter(YEAR == 2024, SEMESTRE == 2) %>%
   summarise(Total = n(), .by = c(FORMACION)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
          FORMACION = fct_rev(fct_reorder(FORMACION,Total,sum))) %>% 
@@ -367,12 +383,14 @@ Fig14 <- UnalData::Docentes %>% filter(YEAR == 2024, SEMESTRE == 2) %>%
        subtitle = "Periodo 2024-2",
        x = "\nMáxima Formación",
        y = "Total de docentes\n")
-Fig14
+
+Gra18
+ggsave("Exportar/SVG/Grafico18.svg")
 
 
-# Figura 15 ----
+# Gráfico 19 ----
 
-Fig15 <- UnalData::Administrativos %>% 
+Gra19 <- UnalData::Administrativos %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
   mutate(Grupo = "General",
@@ -392,11 +410,12 @@ Fig15 <- UnalData::Administrativos %>%
   scale_y_continuous(limits = c(0, 4000))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig15
+Gra19
+ggsave("Exportar/SVG/Grafico19.svg")
 
-# Figura 16 ----
+# Gráfico 20 ----
 
-Fig16 <- UnalData::Administrativos %>% 
+Gra20 <- UnalData::Administrativos %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, SEXO)) %>% 
   group_by(Periodo) %>% 
@@ -418,13 +437,15 @@ Fig16 <- UnalData::Administrativos %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig16
+
+Gra20
+ggsave("Exportar/SVG/Grafico20.svg")
 
 
-# Figura 17 ----
+# Gráfico 21 ----
 
 
-Fig17 <- UnalData::SaberPro %>% 
+Gra21 <- UnalData::SaberPro %>% 
          select(starts_with("PUNT")) %>% 
          select(-PUNTAJE_GLOBAL) %>% 
          rename(`Competencias Ciudadanas` = PUNT_COMP_CIUD,
@@ -447,12 +468,13 @@ Fig17 <- UnalData::SaberPro %>%
        x = "Competencia evaluada\n",
        y = "\nPuntaje en la prueba")
  
-Fig17
+Gra21
+ggsave("Exportar/SVG/Grafico21.svg")
 
 
-# Figura 18 ----
+# Gráfico 22 ----
 
-Fig18 <- UnalData::SaberPro %>% 
+Gra22 <- UnalData::SaberPro %>% 
   select(starts_with("PUNT"), SEDE_NOMBRE_ADM) %>% 
   select(-PUNTAJE_GLOBAL) %>% 
   rename(`Competencias Ciudadanas` = PUNT_COMP_CIUD,
@@ -475,12 +497,13 @@ Fig18 <- UnalData::SaberPro %>%
        x = "Competencia evaluada\n",
        y = "\nPuntaje en la prueba")
 
-Fig18
+Gra22
+ggsave("Exportar/SVG/Grafico22.svg")
 
 
-# Figura 19 ----
+# Gráfico 23 ----
 
-Fig19 <- UnalData::SaberPro %>% 
+Gra23 <- UnalData::SaberPro %>% 
   select(starts_with("PUNT"), TIPO_ADM) %>% 
   select(-PUNTAJE_GLOBAL) %>% 
   rename(`Competencias Ciudadanas` = PUNT_COMP_CIUD,
@@ -503,11 +526,12 @@ Fig19 <- UnalData::SaberPro %>%
        x = "Competencia evaluada\n",
        y = "\nPuntaje en la prueba")
 
-Fig19
+Gra23
+ggsave("Exportar/SVG/Grafico23.svg")
 
-# Figura 20 ----
+# Gráfico 24 ----
 
-Fig20 <- Grupos %>%
+Gra24 <- Grupos %>%
          mutate(Sede = fct_relevel(Sede, "Bogotá", "Medellín", "Manizales", "Palmira", "La Paz", "Amazonía", 
                                    "Caribe", "Orinoquía", "Tumaco")) %>% 
          ggplot(aes(x = Sede, y = Total, fill = Categoria))+
@@ -527,11 +551,12 @@ Fig20 <- Grupos %>%
     theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
 
-Fig20  
+Gra24  
+ggsave("Exportar/SVG/Grafico24.svg")
 
-# Figura 21 ----
+# Gráfico 25 ----
 
-Fig21 <- Investigadores %>%
+Gra25 <- Investigadores %>%
   mutate(Sede = fct_relevel(Sede, "Bogotá", "Medellín", "Manizales", "Palmira", "La Paz", "Amazonía", 
                             "Caribe", "Orinoquía", "Tumaco")) %>% 
   ggplot(aes(x = Sede, y = Total, fill = Tipo))+
@@ -550,11 +575,13 @@ Fig21 <- Investigadores %>%
        fill = "Tipo docente")+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig21  
 
-# Figura 22 ----
+Gra25  
+ggsave("Exportar/SVG/Grafico25.svg")
 
-Fig22 <- Extensión %>%
+# Gráfico 26 ----
+
+Gra26 <- Extensión %>%
   mutate(Modalidad = fct_rev(fct_relevel(Modalidad, "Educación continua y permanente",
                                     "Servicios académicos",
                                       "Extensión solidaria")),
@@ -575,13 +602,14 @@ Fig22 <- Extensión %>%
        fill = "Modalidad")+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig22 
+
+Gra26 
+ggsave("Exportar/SVG/Grafico26.svg")
 
 
+# Gráfico 27 ----
 
-# Figura 23 ----
-
-Fig23 <- Rankings %>% filter(RANKING == "QSMundo") %>% 
+Gra27 <- Rankings %>% filter(RANKING == "QSMundo") %>% 
   mutate(YEAR = as.character(YEAR),
          Totalf = ifelse(YEAR %in% c("2011", "2019", "2023"),  
                  format(Total, big.mark = ".", decimal.mark = ","), 
@@ -599,11 +627,12 @@ Fig23 <- Rankings %>% filter(RANKING == "QSMundo") %>%
        x = "\nAño",
        y = "Puesto Mundo\n")
 
-Fig23
+Gra27
+ggsave("Exportar/SVG/Grafico27.svg")
 
-# Figura 24----
+# Gráfico 28 ----
 
-Fig24 <- Rankings %>% filter(RANKING == "THEMundo") %>% 
+Gra28 <- Rankings %>% filter(RANKING == "THEMundo") %>% 
   mutate(YEAR = as.character(YEAR),
          Totalf = ifelse(YEAR %in% c("2017", "2020", "2023"),  
                          format(Total, big.mark = ".", decimal.mark = ","), 
@@ -621,12 +650,13 @@ Fig24 <- Rankings %>% filter(RANKING == "THEMundo") %>%
        x = "\nAño",
        y = "Puesto Mundo\n")
 
-Fig24
+Gra28
+ggsave("Exportar/SVG/Grafico28.svg")
 
 
-# Figura 25----
+# Gráfico 29 ----
 
-Fig25 <- Rankings %>% filter(RANKING == "USapiens") %>% 
+Gra29 <- Rankings %>% filter(RANKING == "USapiens") %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-"),
          Totalf = ifelse(Periodo %in% c("2011-1", "2017-2", "2023-2"),  
                          format(Total, big.mark = ".", decimal.mark = ","), 
@@ -650,12 +680,13 @@ Fig25 <- Rankings %>% filter(RANKING == "USapiens") %>%
        caption = "(*). En el ranking U-Sapiens sólo cumplen criterios de inclusión\nlas sedes Bogotá, Medellín y Palmira") +
   theme(axis.text.x = element_text(angle = 90))
 
-Fig25
+Gra29
+ggsave("Exportar/SVG/Grafico29.svg")
 
-# Figura 26 ----
+# Gráfico 30 ----
 # Salud
 
-Fig26 <- Bienestar %>% 
+Gra30 <- Bienestar %>% 
   filter(Programa == "Salud") %>% 
   mutate(Usuariosf = ifelse(Year %in% c(2017, 2021, 2023),
                             format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>%
@@ -676,12 +707,13 @@ Fig26 <- Bienestar %>%
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig26
+Gra30
+ggsave("Exportar/SVG/Grafico30.svg")
 
-# Figura 27 ----
+# Gráfico 31 ----
 # Deportes
 
-Fig27 <- Bienestar %>% 
+Gra31 <- Bienestar %>% 
   filter(Programa == "Actividad Física y Deporte") %>% 
   mutate(Usuariosf = ifelse(Year %in% c(2017, 2020, 2021, 2023),
                             format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>%
@@ -702,12 +734,13 @@ Fig27 <- Bienestar %>%
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig27
+Gra31
+ggsave("Exportar/SVG/Grafico31.svg")
 
-# Figura 28 ----
+# Gráfico 32 ----
 # Cultura
 
-Fig28 <- Bienestar %>% 
+Gra32 <- Bienestar %>% 
   filter(Programa == "Cultura") %>% 
   mutate(Usuariosf = ifelse(Year %in% c(2017, 2020, 2021, 2023),
                             format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>%
@@ -728,12 +761,13 @@ Fig28 <- Bienestar %>%
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig28
+Gra32
+ggsave("Exportar/SVG/Grafico32.svg")
 
-# Figura 29 ----
+# Gráfico 33 ----
 # Acompañamiento integral
 
-Fig29 <- Bienestar %>% 
+Gra33 <- Bienestar %>% 
   filter(Programa == "Acompañamiento Integral") %>% 
   mutate(Usuariosf = ifelse(Year %in% c(2017, 2020, 2021, 2023),
                             format(Usuarios, big.mark = ".", decimal.mark = ","), NA)) %>%
@@ -754,13 +788,14 @@ Fig29 <- Bienestar %>%
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig29
+Gra33
+ggsave("Exportar/SVG/Grafico33.svg")
 
 
-# Figura 30 ----
+# Gráfico 34 ----
 # Apoyo alimentario
 
-Fig30 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+Gra34 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
                                                  str_sub(Periodof, 7, 7))) %>% 
          filter(Programa == "Apoyo alimentario estudiantil") %>% 
          mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-1", "2022-1", "2023-2"),  
@@ -781,12 +816,13 @@ Fig30 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5),
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig30
+Gra34
+ggsave("Exportar/SVG/Grafico34.svg")
 
-# Figura 31 ----
+# Gráfico 35 ----
 # Apoyo económico
 
-Fig31 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+Gra35 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
                                                  str_sub(Periodof, 7, 7))) %>% 
   filter(Programa == "Apoyo económico estudiantil") %>% 
   mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-1", "2022-1", "2023-2"),  
@@ -807,13 +843,14 @@ Fig31 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5),
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig31
+Gra35
+ggsave("Exportar/SVG/Grafico35.svg")
 
 
-# Figura 32 ----
+# Gráfico 36 ----
 # Alojamiento
 
-Fig32 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+Gra36 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
                                                  str_sub(Periodof, 7, 7))) %>% 
   filter(Programa == "Apoyo para el alojamiento estudiantil") %>% 
   mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-2", "2022-1", "2023-2"),  
@@ -834,12 +871,13 @@ Fig32 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5),
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig32
+Gra36
+ggsave("Exportar/SVG/Grafico36.svg")
 
-# Figura 33 ----
+# Gráfico 37 ----
 # Alojamiento
 
-Fig33 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
+Gra37 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5), 
                                                  str_sub(Periodof, 7, 7))) %>% 
   filter(Programa == "Apoyo para el transporte estudiantil") %>% 
   mutate(Usuariosf = ifelse(Periodo %in% c("2017-1", "2019-2", "2020-2", "2022-1", "2023-2"),  
@@ -860,12 +898,76 @@ Fig33 <- Económica %>%  mutate(Periodo = paste0(str_sub(Periodof, 1, 5),
   theme(axis.text.x = element_text(angle = 90),
         legend.position="none")
 
-Fig33
+Gra37
+ggsave("Exportar/SVG/Grafico37.svg")
 
 
-# Figura 34 ----
+# Gráfico 38 ----
 
-Fig34 <- UnalData::Aspirantes %>% 
+Gra38 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
+                              Periodo = str_sub(APERTURA, 1, 6)) %>% 
+  summarise(Total = sum(Total), 
+            Deserción = sum(Deserción), 
+            .by = c(Año, Periodo)) %>% 
+  mutate(Participa = Deserción/Total,
+         Porcentaje = ifelse(Periodo %in% c("2007-1", "2010-1", "2013-2", "2015-2"), 
+                             scales::percent(Participa, accuracy = 0.1), NA),
+         Grupo = "Global") %>% 
+  filter(Año  <= 2015) %>% 
+  ggplot(aes(x = Periodo, y = Participa, group = Grupo ))+
+  geom_point(size = 1)+
+  geom_line()+
+  geom_label_repel(aes(label = Porcentaje), 
+                   box.padding = 0.5,
+                   segment.linetype = 3,
+                   size = 2.8)+
+  labs(title = "Tasa de deserción en Pregrado en la UNAL por cohortes",
+       subtitle = "Cohortes 2007-2015",
+       x = "\nCohorte",
+       y = "Tasa de deserción \n")+
+  scale_y_continuous(labels = percent,
+                     limits = c(0,1))+
+  theme(axis.text.x = element_text(angle = 90))
+
+Gra38
+ggsave("Exportar/SVG/Grafico38.svg")
+
+# Gráfico 39 ----
+
+Gra39 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
+                              Periodo = str_sub(APERTURA, 1, 6)) %>% 
+  summarise(Total = sum(Total), 
+            Deserción = sum(Deserción), 
+            .by = c(Año, Periodo, Sede)) %>% 
+  mutate(Participa = Deserción/Total,
+         Porcentaje = ifelse(Periodo %in% c("2007-1", "2011-2", "2015-2"), 
+                             scales::percent(Participa, accuracy = 0.1), NA)) %>% 
+  filter(Año  <= 2015) %>% 
+  ggplot(aes(x = Periodo, y = Participa, group = Sede))+
+  geom_line(aes(linetype = Sede))+
+  geom_label_repel(aes(label = Porcentaje),
+                   box.padding = 1,
+                   segment.linetype = 3,
+                   size = 2.8)+
+  geom_point(aes(shape = Sede),
+             size = 1.5,
+             alpha = 0.7)+
+  labs(title = "Tasa de deserción en Pregrado en la UNAL por cohortes y sedes",
+       subtitle = "Cohortes 2007-2015",
+       x = "\nCohorte",
+       y = "Tasa de deserción \n")+
+  scale_y_continuous(labels = percent,
+                     limits = c(0,0.7))+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position = "bottom")
+
+Gra39
+ggsave("Exportar/SVG/Grafico39.svg")
+
+
+# Gráfico 40 ----
+
+Gra40 <- UnalData::Aspirantes %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, SEXO)) %>% 
   group_by(Periodo) %>% 
@@ -887,10 +989,12 @@ Fig34 <- UnalData::Aspirantes %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig34
+
+Gra40
+ggsave("Exportar/SVG/Grafico40.svg")
 
 
-# Figura 35 ----
+# Gráfico 41 ----
 
 Asp <- UnalData::Aspirantes %>% filter(YEAR == 2024, 
                                        SEMESTRE == 1,
@@ -938,7 +1042,7 @@ Fun <- UnalData::Administrativos %>% filter(YEAR == 2024,
 Pob_Sexo <- bind_rows(Adm, Mat, Gra) %>% 
             mutate(Pobla = fct_relevel(Pobla, "Aspirantes", "Admitidos", "Matriculados", "Graduados", "Docentes", "Funcionarios"))
 
-Fig35 <- Pob_Sexo %>% ggplot(aes(x = Pobla, y = Participa, fill = SEXO))+
+Gra41 <- Pob_Sexo %>% ggplot(aes(x = Pobla, y = Participa, fill = SEXO))+
              geom_bar(stat = "identity", position = "dodge", width = 0.8)+
              geom_text(aes(label = Porcent),
                        position = position_dodge(width = 0.9),
@@ -955,11 +1059,12 @@ Fig35 <- Pob_Sexo %>% ggplot(aes(x = Pobla, y = Participa, fill = SEXO))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
   
-Fig35
+Gra41
+ggsave("Exportar/SVG/Grafico41.svg")
 
-# Figura 36 ----
+# Gráfico 42 ----
 
-Fig36 <- UnalData::Matriculados %>% 
+Gra42 <- UnalData::Matriculados %>% 
   filter(TIPO_ADM %in% c("PAES", "PEAMA", "PAET")) %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, SEXO)) %>% 
@@ -983,11 +1088,13 @@ Fig36 <- UnalData::Matriculados %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig36
 
-# Figura 37 ----
+Gra42
+ggsave("Exportar/SVG/Grafico42.svg")
 
-Fig37 <- UnalData::Docentes %>% 
+# Gráfico 43 ----
+
+Gra43 <- UnalData::Docentes %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, SEXO)) %>% 
   group_by(Periodo) %>% 
@@ -1009,11 +1116,13 @@ Fig37 <- UnalData::Docentes %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1))+
   theme(axis.text.x = element_text(angle = 90),
         legend.position = "bottom")
-Fig37
 
-# Figura 38 ----
+Gra43
+ggsave("Exportar/SVG/Grafico43.svg")
 
-Fig38 <- UnalData::Aspirantes %>% 
+# Gráfico 44 ----
+
+Gra44 <- UnalData::Aspirantes %>% 
   filter(DISCAPACIDAD == "Sí") %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
@@ -1034,11 +1143,12 @@ Fig38 <- UnalData::Aspirantes %>%
   scale_y_continuous(limits = c(0, 700))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig38
+Gra44
+ggsave("Exportar/SVG/Grafico44.svg")
 
-# Figura 39 ----
+# Gráfico 45 ----
 
-Fig39 <- UnalData::Aspirantes %>% 
+Gra45 <- UnalData::Aspirantes %>% 
   filter(DISCAPACIDAD == "Sí", ADMITIDO == "Sí") %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo)) %>% 
@@ -1059,11 +1169,12 @@ Fig39 <- UnalData::Aspirantes %>%
   scale_y_continuous(limits = c(0, 80))+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig39
+Gra45
+ggsave("Exportar/SVG/Grafico45.svg")
 
-# Figura 40 ----
+# Gráfico 46 ----
 
-Fig40 <- UnalData::Aspirantes %>% 
+Gra46 <- UnalData::Aspirantes %>% 
   filter(TIPO_INS %in% c("PAES", "PEAMA", "PAET")) %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, TIPO_INS)) %>%
@@ -1086,11 +1197,12 @@ Fig40 <- UnalData::Aspirantes %>%
        linetype = "Programa")+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig40
+Gra46
+ggsave("Exportar/SVG/Grafico46.svg")
 
-# Figura 41 ----
+# Gráfico 47 ----
 
-Fig41 <- UnalData::Matriculados %>% 
+Gra47 <- UnalData::Matriculados %>% 
   filter(TIPO_ADM %in% c("PAES", "PEAMA", "PAET")) %>% 
   mutate(Periodo = paste(YEAR, SEMESTRE, sep = "-")) %>% 
   summarise(Total = n(), .by = c(Periodo, TIPO_ADM)) %>%
@@ -1113,11 +1225,12 @@ Fig41 <- UnalData::Matriculados %>%
        linetype = "Programa")+
   theme(axis.text.x = element_text(angle = 90))
 
-Fig41
+Gra47
+ggsave("Exportar/SVG/Grafico47.svg")
 
-# Figura 42 ----
+# Gráfico 48 ----
 
-Fig42 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
+Gra48 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
                                            TIPO_ADM %in% c("PAES")) %>%
   summarise(Total = n(), .by = c(PAES)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
@@ -1136,11 +1249,12 @@ Fig42 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
        y = "\nTotal de matriculados")+
   coord_flip()
 
-Fig42
+Gra48
+ggsave("Exportar/SVG/Grafico48.svg")
 
-# Figura 43 ----
+# Gráfico 49 ----
 
-Fig43 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
+Gra49 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
                                            TIPO_ADM %in% c("PEAMA")) %>%
   summarise(Total = n(), .by = c(PEAMA)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
@@ -1159,12 +1273,12 @@ Fig43 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
        y = "\nTotal de matriculados")+
   coord_flip()
 
+Gra49
+ggsave("Exportar/SVG/Grafico49.svg")
 
-Fig43
+# Gráfico 50 ----
 
-# Figura 44 ----
-
-Fig44 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
+Gra50 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
                                            TIPO_ADM %in% c("PAET")) %>%
   summarise(Total = n(), .by = c(PAET)) %>% 
   mutate(Porcentaje = scales::percent(Total/sum(Total), accuracy = 0.1),
@@ -1183,66 +1297,6 @@ Fig44 <- UnalData::Matriculados %>% filter(YEAR == 2024, SEMESTRE == 1,
        y = "\nTotal de matriculados")+
   coord_flip()
 
-Fig44
-
-# Figura 45 ----
-
-Fig45 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
-                     Periodo = str_sub(APERTURA, 1, 6)) %>% 
-  summarise(Total = sum(Total), 
-            Deserción = sum(Deserción), 
-            .by = c(Año, Periodo)) %>% 
-  mutate(Participa = Deserción/Total,
-         Porcentaje = ifelse(Periodo %in% c("2007-1", "2010-1", "2013-2", "2015-2"), 
-                             scales::percent(Participa, accuracy = 0.1), NA),
-         Grupo = "Global") %>% 
-  filter(Año  <= 2015) %>% 
-  ggplot(aes(x = Periodo, y = Participa, group = Grupo ))+
-  geom_point(size = 1)+
-  geom_line()+
-  geom_label_repel(aes(label = Porcentaje), 
-                   box.padding = 0.5,
-                   segment.linetype = 3,
-                   size = 2.8)+
-  labs(title = "Tasa de deserción en Pregrado en la UNAL por cohortes",
-       subtitle = "Cohortes 2007-2015",
-       x = "\nCohorte",
-       y = "Tasa de deserción \n")+
-  scale_y_continuous(labels = percent,
-                     limits = c(0,1))+
-  theme(axis.text.x = element_text(angle = 90))
-
-Fig45
-
-# Figura 46 ----
-
-Fig46 <- Desersión %>% mutate(Año = as.numeric(str_sub(APERTURA, 1, 4)),
-                              Periodo = str_sub(APERTURA, 1, 6)) %>% 
-  summarise(Total = sum(Total), 
-            Deserción = sum(Deserción), 
-            .by = c(Año, Periodo, Sede)) %>% 
-  mutate(Participa = Deserción/Total,
-         Porcentaje = ifelse(Periodo %in% c("2007-1", "2011-2", "2015-2"), 
-                             scales::percent(Participa, accuracy = 0.1), NA)) %>% 
-  filter(Año  <= 2015) %>% 
-  ggplot(aes(x = Periodo, y = Participa, group = Sede))+
-  geom_line(aes(linetype = Sede))+
-  geom_label_repel(aes(label = Porcentaje),
-                  box.padding = 1,
-                  segment.linetype = 3,
-                  size = 2.8)+
-  geom_point(aes(shape = Sede),
-             size = 1.5,
-             alpha = 0.7)+
-  labs(title = "Tasa de deserción en Pregrado en la UNAL por cohortes y sedes",
-       subtitle = "Cohortes 2007-2015",
-       x = "\nCohorte",
-       y = "Tasa de deserción \n")+
-  scale_y_continuous(labels = percent,
-                     limits = c(0,0.7))+
-  theme(axis.text.x = element_text(angle = 90),
-        legend.position = "bottom")
-  
-Fig46
-
+Gra50
+ggsave("Exportar/SVG/Grafico50.svg")
 
